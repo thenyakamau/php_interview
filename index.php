@@ -12,18 +12,19 @@
     <div style="display: flex; justify-content: space-between; padding: 20px;">
         <caption>Medical Records</caption>
 
-        <button>Add Record</button>
+        <button onclick="redirect()">Add Record</button>
     </div>
     <table>
         <thead>
             <tr>
-                <th scope="col">Account</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Period</th>
+                <th scope="col">Name</th>
+                <th scope="col">Date Of Birth</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Type of Service</th>
+                <th scope="col">General comments</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id='patient_body'>
             <tr>
                 <td data-label="Account">Visa - 3412</td>
                 <td data-label="Due Date">04/01/2016</td>
@@ -50,6 +51,49 @@
             </tr>
         </tbody>
     </table>
+
+    <script>
+        async function fetchPatients() {
+            const response = await fetch("/patient/index.php", {
+                method: "GET"
+            })
+
+            const data = await response.json();
+            const bodyContainer = document.getElementById('patient_body')
+            while (bodyContainer.firstChild) bodyContainer.removeChild(bodyContainer.lastChild)
+
+            console.log(data);
+            data.forEach(item => {
+                const tr = document.createElement('tr')
+                const nameTd = document.createElement("td")
+                nameTd.innerHTML = item?.name
+
+                const dobTd = document.createElement("td")
+                dobTd.innerHTML = item?.date_of_birth
+
+                const genderTd = document.createElement("td")
+                genderTd.innerHTML = item?.gender[0].gender_name
+
+                const services = item?.services?.map(vitem => vitem.service_name)?.join(' ')
+                const serviceTd = document.createElement("td")
+                serviceTd.innerHTML = services;
+
+                const general_comment = item?.services[0]?.general_comments;
+                const generalCommentTd = document.createElement("td")
+                generalCommentTd.innerHTML = general_comment;
+
+                tr.append(nameTd, dobTd, genderTd, serviceTd, generalCommentTd)
+                bodyContainer.append(tr)
+            });
+        }
+
+        function redirect() {
+            window.location.replace('/patient/add.php')
+        }
+
+        fetchPatients()
+    </script>
+
 </body>
 
 </html>
