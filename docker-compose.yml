@@ -35,7 +35,7 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       DB_HOSTNAME: database
-      DB_USERNAME: root
+      DB_USERNAME: medman
       DB_PASSWORD: password
       DB_DATABASE: med
       DB_ENVIRONMENT: test
@@ -43,7 +43,7 @@ services:
       MYSQL_DATABASE: med
       MYSQL_HOST: database
       MYSQL_PORT: 3306
-      MYSQL_USER: root
+      MYSQL_USER: medman
       MYSQL_PASSWORD: password
       PMA_HOST: mysql
 
@@ -61,7 +61,7 @@ services:
       - "8090:80"
     environment:
       DB_HOSTNAME: database
-      DB_USERNAME: root
+      DB_USERNAME: medman
       DB_PASSWORD: password
       DB_DATABASE: med
       DB_ENVIRONMENT: test
@@ -69,9 +69,9 @@ services:
       MYSQL_DATABASE: med
       MYSQL_HOST: database
       MYSQL_PORT: 3306
-      MYSQL_USER: root
+      MYSQL_USER: medman
       MYSQL_PASSWORD: password
-      PMA_HOST: mysql
+      PMA_HOST: database
     networks:
       - med_net
 
